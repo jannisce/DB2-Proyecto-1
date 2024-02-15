@@ -1,8 +1,12 @@
 import React from 'react'
+import TeamSection from '../components/TeamSection/TeamSection'
+import Layout from '../components/Layout/Layout'
 
 const AboutPage = () => {
   return (
-    <div>AboutPage</div>
+    <Layout>
+      <TeamSection />
+    </Layout>
   )
 }
 
