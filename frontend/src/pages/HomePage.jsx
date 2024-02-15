@@ -1,8 +1,12 @@
 import React from 'react'
+import Layout from '../components/Layout/Layout'
+import HeroSection from '../components/HeroSection/HeroSection'
 
 const HomePage = () => {
   return (
-    <div className='text-xl'>HomePage</div>
+    <Layout>
+      <HeroSection />
+    </Layout>
   )
 }
 
