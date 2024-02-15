@@ -27,5 +27,5 @@ app.use((err, req, res, next) => {
 
 // Iniciar el servidor
 app.listen(PORT, () => {
-  console.log(`Servidor en ejecución en el puerto ${PORT}`)
+  console.log(`\nServidor en ejecución en el puerto ${PORT}`)
 })
