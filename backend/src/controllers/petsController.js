@@ -22,7 +22,7 @@ export const createPet = async (req, res) => {
         species,
         age 
     })
-    res.status(201).json(result.ops[0])
+    res.status(201).json(result)
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: 'Error al crear la mascota' })
