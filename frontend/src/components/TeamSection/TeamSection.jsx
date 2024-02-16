@@ -5,11 +5,11 @@ import { TEAM_INFO, TEAM_MEMBERS } from '../../data/constants'
 const TeamSection = () => {
   
   return (
-    <div className='p-8 bg-white rounded-lg shadow my-12'>
-      <p className='text-3xl font-bold text-center text-gray-800'>
+    <div className='p-8 my-16 bg-white rounded-lg'>
+      <p className='text-4xl font-bold text-center text-gray-800 mb-4'>
       {TEAM_INFO.name}
       </p>
-      <p className='mb-12 text-xl font-normal text-center text-gray-500'>
+      <p className='mb-10 text-2xl font-normal text-center text-gray-500'>
         {TEAM_INFO.description}
       </p>
       <div className='flex flex-col items-center md:flex-row justify-evenly'>
