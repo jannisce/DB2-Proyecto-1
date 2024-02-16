@@ -5,7 +5,7 @@ import { TEAM_INFO, TEAM_MEMBERS } from '../../data/constants'
 const TeamSection = () => {
   
   return (
-    <div className='p-8 my-16 bg-white rounded-lg'>
+    <div className='p-8 my-14 bg-white rounded-lg'>
       <p className='text-4xl font-bold text-center text-gray-800 mb-4'>
       {TEAM_INFO.name}
       </p>
