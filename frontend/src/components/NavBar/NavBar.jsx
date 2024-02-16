@@ -6,7 +6,7 @@ const NavBar = () => {
   const style = 'text-gray-800 hover:text-gray-600'
 
   return (
-    <nav className='flex items-center justify-between px-14 pt-8 bg-white shadow-md'>
+    <nav className='flex items-center justify-between  px-14 py-8 bg-white shadow-md'>
       {/* LOGO GOES HERE */}
       <h1 className='text-4xl font-bold text-gray-800'>ADOGPT</h1>
 

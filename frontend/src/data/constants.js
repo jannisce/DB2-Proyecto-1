@@ -13,16 +13,16 @@ export const TEAM_MEMBERS = [
   {
     name: 'Javier Chavez',
     role: 'Developer',
-    imageSrc: '',
+    imageSrc: './javier.png',
   },
   {
     name: 'Andres Quezada',
     role: 'Developer',
-    imageSrc: '',
+    imageSrc: './andres.png',
   },
   {
     name: 'Josue Morales',
     role: 'Developer',
-    imageSrc: '',
+    imageSrc: './josue.png',
   },
 ]

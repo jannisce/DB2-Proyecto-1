@@ -7,7 +7,7 @@ const TeamMember = ({ name, role, imageSrc }) => {
           <img
             alt='Profile'
             src={imageSrc}
-            className='mx-auto object-cover rounded-full h-40 w-40'
+            className='mx-auto object-cover h-50 w-48'
           />
       </div>
       <div className='text-center'>
