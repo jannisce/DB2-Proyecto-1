@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import { connect } from './db/db.js'
 import petsRoutes from './routes/petsRoutes.js'
 
@@ -7,6 +8,9 @@ const app = express()
 
 // Middleware para parsear JSON
 app.use(express.json())
+
+// Middleware para cors
+app.use(cors())
 
 // Conectar a la base de datos MongoDB
 connect()
