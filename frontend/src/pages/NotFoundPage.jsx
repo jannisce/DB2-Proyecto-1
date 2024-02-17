@@ -22,7 +22,7 @@ const NotFoundPage = () => {
               </button>
             </div>
             <div className='relative block w-4/5 max-w-md mx-auto md:mt-0 lg:max-w-2xl'>
-              <img src='./warning.svg' />
+              <img src='/warning.svg' />
             </div>
           </div>
         </div>

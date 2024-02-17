@@ -1,7 +1,7 @@
 export const NAV_BAR = [
   { name: "Home", path: "/" },
   { name: "Dashboard", path: "/dashboard" },
-  { name: "Adopt", path: "/adoptar" },
+  { name: "Adopt", path: "/adopt" },
   { name: "About us", path: "/about" },
 ]
 
@@ -26,3 +26,5 @@ export const TEAM_MEMBERS = [
     imageSrc: './josue.png',
   },
 ]
+
+export const API_URL = 'http://127.0.0.1:5005'

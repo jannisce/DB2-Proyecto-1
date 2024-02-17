@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import AboutPage from './pages/AboutPage'
 import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
+import AdoptPage from './pages/AdoptPage'
+import PetDetailsPage from './pages/PetDetailsPage'
 
 const App = () => {
   return (
@@ -14,6 +16,8 @@ const App = () => {
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/about' element={<AboutPage />} />
+        <Route path='/adopt' element={<AdoptPage />} />
+        <Route path='/adopt/:_id' element={<PetDetailsPage />} />
 
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
