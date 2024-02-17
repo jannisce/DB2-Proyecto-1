@@ -15,17 +15,17 @@ const PetCard = ({ name, age, breed, image, pet_id }) => {
       />
 
       <div className='relative border border-gray-100 bg-white p-6'>
-        <span className='whitespace-nowrap bg-yellow-400 px-3 py-1.5 font-medium'>
+        <span className='whitespace-nowrap bg-yellow-400 px-3 py-1.5 font-medium text-lg'>
           {' '}
           {breed}{' '}
         </span>
 
-        <h3 className='mt-4 text-xl font-medium text-gray-900'>{name}</h3>
+        <h3 className='mt-4 text-4xl font-medium text-gray-900'>{name}</h3>
 
-        <p className='mt-1.5 text-gray-700'>Age: {age}</p>
+        <p className='mt-1.5 text-gray-700 text-xl'>Age: {age}</p>
 
         <form className='mt-4'>
-          <button className='block w-full rounded bg-yellow-400 p-4 text-lg font-medium transition hover:scale-105'>
+          <button className='block w-full rounded bg-yellow-400 p-4 text-xl font-bold  transition hover:scale-105'>
             Get more info
           </button>
         </form>

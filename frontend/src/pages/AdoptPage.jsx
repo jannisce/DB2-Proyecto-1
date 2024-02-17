@@ -5,16 +5,23 @@ import Layout from '../components/Layout/Layout'
 import PetCard from '../components/PetCard/PetCard'
 
 import { API_URL } from '../data/constants'
+import Loader from '../components/Loader/Loader'
 
 const AdoptPage = () => {
-  const [pets, setPets] = useState([])
+  const [pets, setPets] = useState()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    setLoading(true)
     const fetchData = async () => {
       try {
         const response = await axios.get(`${API_URL}/pets`)
-        setPets(response.data)
+        setTimeout(() => {
+          setPets(response.data)
+          setLoading(false)
+        }, 250)
       } catch (error) {
+        setLoading(false)
         console.error(error)
       }
     }
@@ -33,16 +40,22 @@ const AdoptPage = () => {
         </p>
 
         <div className='flex flex-col md:flex-row items-center justify-center flex-wrap'>
-          {pets.map((pet) => (
-            <PetCard
-              key={pet._id}
-              name={pet.name}
-              age={pet.age}
-              breed={pet.breed}
-              image={pet.picture}
-              pet_id={pet._id}
-            />
-          ))}
+          {loading ? (
+            <Loader text='Loading ... ' />
+          ) : pets ? (
+            pets.map((pet) => (
+              <PetCard
+                key={pet._id}
+                name={pet.name}
+                age={pet.age}
+                breed={pet.breed}
+                image={pet.picture}
+                pet_id={pet._id}
+              />
+            ))
+          ) : (
+            <Loader text='Error fetching data ... ' />
+          )}
         </div>
       </div>
     </Layout>
