@@ -37,12 +37,40 @@ export const createPet = async (req, res) => {
     const db = getDB()
     const result = await db.collection('pets').insertOne({
       name,
-      species,
-      age
+      pincure,
+      breed,
+      weight,
+      size,
+      diet,
+      color,
+      personality,
+      age,
+      health_state,
+      allergies,
+      special_conditions,
+      notes,
+      vaccines
     })
     res.status(201).json(result)
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: 'Error al crear la mascota' })
+  }
+}
+
+// Función controladora para eliminar una mascota por su 
+export const deletePet = async (req, res) => {
+  const { _id } = req.params
+  try {
+    const db = getDB()
+    const result = await db.collection('pets').deleteOne({ _id: new ObjectId(_id) })
+    if (result.deletedCount) {
+      res.json({ message: 'Mascota eliminada' })
+    } else {
+      res.status(404).json({ message: 'Mascota no encontrada' })
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Error al eliminar la mascota' })
   }
 }

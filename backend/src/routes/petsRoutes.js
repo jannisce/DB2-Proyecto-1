@@ -2,7 +2,7 @@ import express from 'express'
 const router = express.Router()
 
 // Controladores
-import { getAllPets, getPetById, createPet } from '../controllers/petsController.js'
+import { getAllPets, getPetById, createPet, deletePet } from '../controllers/petsController.js'
 
 // Ruta para obtener todas las perro
 router.get('/', getAllPets)
@@ -12,5 +12,8 @@ router.post('/', createPet)
 
 // Ruta para obtener una perro por su id
 router.get('/:_id', getPetById)
+
+// Ruta para eliminar una perro por su id
+router.delete('/:_id', deletePet)
 
 export default router
