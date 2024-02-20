@@ -74,3 +74,24 @@ export const deletePet = async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar la mascota' })
   }
 }
+
+// Función controladora para actualizar una mascota por su id
+export const updatePet = async (req, res) => {
+  const { _id } = req.params
+  const { name,breed,weight,size,diet,color,personality,age,health_state,alergies,special_condition,notes,vaccines } = req.body
+  try {
+    const db = getDB()
+    const result = await db.collection('pets').updateOne(
+      { _id: new ObjectId(_id) },
+      { $set: { name,breed,weight,size,diet,color,personality,age,health_state,alergies,special_condition,notes,vaccines } }
+    )
+    if (result.modifiedCount) {
+      res.json({ message: 'Mascota actualizada' })
+    } else {
+      res.status(404).json({ message: 'Mascota no encontrada' })
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Error al actualizar la mascota' })
+  }
+}
