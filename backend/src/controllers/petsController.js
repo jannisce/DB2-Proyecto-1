@@ -32,7 +32,7 @@ export const getPetById = async (req, res) => {
 
 // Función controladora para crear una nueva mascota
 export const createPet = async (req, res) => {
-  const { name, species, age } = req.body
+  const { name, picture, breed, weight, size, diet, color, personality, age, health_state, allergies, special_conditions, notes, vaccines } = req.body
   try {
     const db = getDB()
     const result = await db.collection('pets').insertOne({
