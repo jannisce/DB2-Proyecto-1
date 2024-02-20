@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import { connect } from './db/db.js'
 import petsRoutes from './routes/petsRoutes.js'
+import ownersRoutes from './routes/ownersRoutes.js'
 
 const PORT = 5005
 const app = express()
@@ -17,6 +18,7 @@ connect()
 
 // Usar las rutas de tareas
 app.use('/pets', petsRoutes)
+app.use('/owners', ownersRoutes)
 
 // Manejar rutas no encontradas
 app.use((req, res) => {
