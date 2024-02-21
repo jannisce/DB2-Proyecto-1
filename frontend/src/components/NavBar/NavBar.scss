@@ -1,0 +1,8 @@
+.logo {
+    margin-left: 20px;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: translateY(-10px) rotateZ(360deg) scale(1.2);
+}

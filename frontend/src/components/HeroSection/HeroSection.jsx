@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import './HeroSection.scss'
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -13,16 +14,27 @@ const HeroSection = () => {
         </h2>
         <p className='text-xl mt-4 text-gray-400'>
           Our shelter is full of furry friends eagerly waiting for a
-          home where they can share their joy and companionship.
+          home!<br />
         </p>
           <div className='mt-12 inline-flex rounded-md shadow'>
             <button
               type='button'
-              className='py-4 px-6  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg '
+              className='py-4 px-6  bg-mint hover:bg-mint-300 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg '
               onClick={() => navigate('/adopt')}
             >
               Find your friend
             </button>
+        </div>
+      </div>
+      <div className="container--center">
+        <div className="dancing-pug">
+          <ul>
+            <li className="ear"></li>
+            <li className="ear"></li>
+            <li className="eye"></li>
+            <li className="eye"></li>
+            <li></li>
+          </ul>
         </div>
       </div>
       <img
