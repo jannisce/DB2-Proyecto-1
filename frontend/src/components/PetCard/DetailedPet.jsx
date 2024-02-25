@@ -73,25 +73,32 @@ const DetailedPet = ({ pet }) => {
     'special_condition',
     'notes',
     'vaccines',
-    'owner',
   ]
+  
 
-  const renderInput = (fieldName) => (
-    <div className='flex flex-row flex-wrap h-12 mx-2' key={fieldName}>
-      <label htmlFor={fieldName} className='font-bold w-44'>
-        {fieldName}
-      </label>
-      <input
-        type={fieldName === 'age' || fieldName === 'weight' ? 'number' : 'text'}
-        id={fieldName}
-        name={fieldName}
-        onChange={handleInputChange}
-        value={editedPet[fieldName]}
-        readOnly={!isEditing}
-        className={`mx-8 ${isEditing ? 'bg-blue-100' : ''}`}
-      />
-    </div>
-  )
+  const renderInput = (fieldName) => {
+    if (fieldName === 'owner_name' || fieldName === 'owner_address' || fieldName === 'owner_phone' || fieldName === 'owner_email') {
+      return null // Ignorar campos del propietario
+    }
+  
+    return (
+      <div className='flex flex-row flex-wrap h-12 mx-2' key={fieldName}>
+        <label htmlFor={fieldName} className='font-bold w-44'>
+          {fieldName}
+        </label>
+        <input
+          type={fieldName === 'age' || fieldName === 'weight' ? 'number' : 'text'}
+          id={fieldName}
+          name={fieldName}
+          onChange={handleInputChange}
+          value={editedPet[fieldName]}
+          readOnly={!isEditing}
+          className={`mx-8 ${isEditing ? 'bg-blue-100' : ''}`}
+        />
+      </div>
+    )
+  }
+  
 
   const renderedFields = fields.map(renderInput)
 
@@ -107,8 +114,17 @@ const DetailedPet = ({ pet }) => {
           />
         </div>
 
-        <div className='flex flex-row text-lg  items-center justify-center flex-wrap flex-1'>
+        <div className='flex flex-row text-lg items-center justify-center flex-wrap flex-1'>
           {renderedFields}
+        </div>
+      </div>
+      <div className='card'>
+        <div className='card-header text-lg'>Owner Details</div>
+        <div className='card-body'>
+          <div><strong>Name:</strong> {editedPet.owner_name}</div>
+          <div><strong>Address:</strong> {editedPet.owner_address}</div>
+          <div><strong>Phone:</strong> {editedPet.owner_phone}</div>
+          <div><strong>Email:</strong> {editedPet.owner_email}</div>
         </div>
       </div>
       <div className='flex justify-end mt-4 mr-8'>

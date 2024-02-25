@@ -34,10 +34,53 @@ export const getAllPets = async (req, res) => {
 export const getPetById = async (req, res) => {
   const { _id } = req.params
   try {
+    if (!ObjectId.isValid(_id)) {
+      res.status(404).json({ message: 'ID de mascota no válido' })
+      return
+    }
+
     const db = getDB()
-    const pet = await db.collection('pets').findOne({ _id: new ObjectId(_id) })
-    if (pet) {
-      res.json(pet)
+    const pet = await db.collection('pets').aggregate([
+      { $match: { _id: new ObjectId(_id) } },
+      {
+        $lookup: {
+          from: 'owners',
+          localField: 'owner',
+          foreignField: '_id',
+          as: 'ownerInfo'
+        }
+      },
+      { $unwind: '$ownerInfo' },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          picture: 1,
+          breed: 1,
+          weight: 1,
+          size: 1,
+          diet: 1,
+          color: 1,
+          personality: 1,
+          age: 1,
+          health_state: 1,
+          allergies: 1,
+          special_condition: 1,
+          notes: 1,
+          vaccines: 1,
+          owner_id: '$ownerInfo._id',
+          owner_name: '$ownerInfo.name',
+          owner_address: '$ownerInfo.address',
+          owner_phone: '$ownerInfo.phone',
+          owner_email: '$ownerInfo.email'
+        }
+      }
+    ]).toArray()
+
+    console.log(pet)
+    
+    if (pet.length > 0) {
+      res.json(pet[0])
     } else {
       res.status(404).json({ message: 'Mascota no encontrada' })
     }
@@ -46,6 +89,7 @@ export const getPetById = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener la mascota' })
   }
 }
+
 
 // Función controladora para crear una nueva mascota
 export const createPet = async (req, res) => {
@@ -102,11 +146,17 @@ export const updatePet = async (req, res) => {
   const weightInt = parseInt(weight)
   const sizeInt = parseInt(size)
 
+  // if owner is different from undefined, convert it to ObjectId
+  let ownerId
+  if (owner !== undefined) {
+    ownerId = new ObjectId(owner)
+  }
+
   try {
     const db = getDB()
     const result = await db.collection('pets').updateOne(
       { _id: new ObjectId(_id) },
-      { $set: { name, picture, breed, weight: weightInt, size, diet, color, personality, age: ageInt, health_state, allergies, special_condition, notes, vaccines, owner } }
+      { $set: { name, picture, breed, weight: weightInt, size, diet, color, personality, age: ageInt, health_state, allergies, special_condition, notes, vaccines, owner: ownerId } }
     )
 
     if (result.modifiedCount) {
