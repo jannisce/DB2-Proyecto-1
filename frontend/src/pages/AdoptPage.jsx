@@ -45,12 +45,8 @@ const AdoptPage = () => {
           ) : pets ? (
             pets.map((pet) => (
               <PetCard
+                pet={pet}
                 key={pet._id}
-                name={pet.name}
-                age={pet.age}
-                breed={pet.breed}
-                image={pet.picture}
-                pet_id={pet._id}
               />
             ))
           ) : (
