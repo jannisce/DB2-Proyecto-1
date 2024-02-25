@@ -32,12 +32,12 @@ export const getPetById = async (req, res) => {
 
 // Función controladora para crear una nueva mascota
 export const createPet = async (req, res) => {
-  const { name, picture, breed, weight, size, diet, color, personality, age, health_state, allergies, special_conditions, notes, vaccines } = req.body
+  const { name, picture, breed, weight, size, diet, color, personality, age, health_state, allergies, special_condition, notes, vaccines } = req.body
   try {
     const db = getDB()
     const result = await db.collection('pets').insertOne({
       name,
-      pincure,
+      picture,
       breed,
       weight,
       size,
@@ -47,7 +47,7 @@ export const createPet = async (req, res) => {
       age,
       health_state,
       allergies,
-      special_conditions,
+      special_condition,
       notes,
       vaccines
     })
@@ -78,12 +78,12 @@ export const deletePet = async (req, res) => {
 // Función controladora para actualizar una mascota por su id
 export const updatePet = async (req, res) => {
   const { _id } = req.params
-  const { name,breed,weight,size,diet,color,personality,age,health_state,alergies,special_condition,notes,vaccines } = req.body
+  const { name, picture, breed,weight,size,diet,color,personality,age,health_state,alergies,special_condition,notes,vaccines } = req.body
   try {
     const db = getDB()
     const result = await db.collection('pets').updateOne(
       { _id: new ObjectId(_id) },
-      { $set: { name,breed,weight,size,diet,color,personality,age,health_state,alergies,special_condition,notes,vaccines } }
+      { $set: { name, picture, breed,weight,size,diet,color,personality,age,health_state,alergies,special_condition,notes,vaccines } }
     )
     if (result.modifiedCount) {
       res.json({ message: 'Mascota actualizada' })
