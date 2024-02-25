@@ -98,25 +98,29 @@ const DetailedPet = ({ pet }) => {
 
       {fieldName == 'vaccines' ? (
         <input
-        type='text'
-        id={fieldName}
-        name={fieldName}
-        onChange={(e) => handleInputChange(e)}
-        value={editedPet.vaccines.map(vaccine => vaccine.name).join(', ')}
-        readOnly={!isEditing}
-        className={`mx-8 ${isEditing ? 'bg-blue-100' : ''}`}
-      />
-      
+          type='text'
+          id={fieldName}
+          name={fieldName}
+          onChange={(e) => handleInputChange(e)}
+          //chapuzon
+          value={
+            Array.isArray(pet.vaccines)
+              ? editedPet.vaccines.map((vaccine) => vaccine.name).join(', ')
+              : editedPet[fieldName]
+          }
+          readOnly={!isEditing}
+          className={`mx-8 ${isEditing ? 'bg-blue-100' : ''}`}
+        />
       ) : (
         <input
-        type='text'
-        id={fieldName}
-        name={fieldName}
-        onChange={(e) => handleInputChange(e)}
-        value={editedPet[fieldName]}
-        readOnly={!isEditing}
-        className={`mx-8 ${isEditing ? 'bg-blue-100' : ''}`}
-      />
+          type='text'
+          id={fieldName}
+          name={fieldName}
+          onChange={(e) => handleInputChange(e)}
+          value={editedPet[fieldName]}
+          readOnly={!isEditing}
+          className={`mx-8 ${isEditing ? 'bg-blue-100' : ''}`}
+        />
       )}
     </div>
   )
