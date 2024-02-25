@@ -78,7 +78,6 @@ const RegisterPage = () => {
     'allergies',
     'special_condition',
     'notes',
-    'vaccines',
   ]
 
   return (

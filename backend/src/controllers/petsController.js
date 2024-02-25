@@ -135,9 +135,42 @@ export const getPetById = async (req, res) => {
 
 // Función controladora para crear una nueva mascota
 export const createPet = async (req, res) => {
-  const { name, picture, breed, weight, size, diet, color, personality, age, health_state, allergies, special_condition, notes, vaccines } = req.body
+  const { 
+    name, 
+    picture, 
+    breed, 
+    weight, 
+    size, 
+    diet, 
+    color, 
+    personality,
+    age, 
+    health_state, 
+    allergies, 
+    special_condition, 
+    notes, 
+    vaccines 
+  } = req.body
   try {
     const db = getDB()
+
+    // Convertir las alergias, condiciones especiales y notas a arreglos
+    let new_allergies = []
+    let new_special_condition = []
+    let new_notes = []
+
+    if (allergies !== undefined && allergies !== null) {
+      new_allergies = String(allergies).split(',')
+    }
+
+    if (special_condition !== undefined && special_condition !== null) {
+      new_special_condition = String(special_condition).split(',')
+    }
+
+    if (notes !== undefined && notes !== null) {
+      new_notes = String(notes).split(',')
+    }
+
     const result = await db.collection('pets').insertOne({
       name,
       picture,
@@ -149,10 +182,9 @@ export const createPet = async (req, res) => {
       personality,
       age : parseInt(age),
       health_state,
-      allergies,
-      special_condition,
-      notes,
-      vaccines
+      allergies : new_allergies,
+      special_condition : new_special_condition,
+      notes : new_notes
     })
     res.status(201).json(result)
   } catch (error) {
@@ -194,11 +226,44 @@ export const updatePet = async (req, res) => {
     ownerId = new ObjectId(owner)
   }
 
+  let new_allergies = []
+  let new_special_condition = []
+  let new_notes = []
+
+  // allergies, special_condition and notes are arrays
+  if (allergies !== undefined && allergies !== null) {
+    new_allergies = String(allergies).split(',')
+  }
+
+  if (special_condition !== undefined && special_condition !== null) {
+    new_special_condition = String(special_condition).split(',')
+  }
+
+  if (notes !== undefined && notes !== null) {
+    new_notes = String(notes).split(',')
+  }
+
   try {
     const db = getDB()
     const result = await db.collection('pets').updateOne(
       { _id: new ObjectId(_id) },
-      { $set: { name, picture, breed, weight: weightInt, size, diet, color, personality, age: ageInt, health_state, allergies, special_condition, notes, vaccines, owner: ownerId } }
+      { $set: { 
+        name,
+        picture, 
+        breed, 
+        weight: weightInt, 
+        size, 
+        diet, 
+        color, 
+        personality, 
+        age: ageInt, 
+        health_state, 
+        allergies: new_allergies,
+        special_condition : new_special_condition,
+        notes : new_notes,
+        vaccines, 
+        owner: ownerId 
+      } }
     )
 
     if (result.modifiedCount) {
