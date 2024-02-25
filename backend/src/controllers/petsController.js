@@ -1,11 +1,28 @@
 import { ObjectId } from 'mongodb'
 import { getDB } from '../db/db.js'
 
-// Función controladora para obtener todas las mascotas
+
+// Función controladora para obtener todas las mascotas con posibilidad de ordenar por edad
 export const getAllPets = async (req, res) => {
+  console.log('getAllPets')
   try {
     const db = getDB()
-    const pets = await db.collection('pets').find().toArray()
+    const { age, weight, breed, sort } = req.query
+    const filter = {}
+    console.log(req.query)
+    if (age) filter.age = parseInt(age)
+    if (weight) filter.weight = parseInt(weight)
+    if (breed) filter.breed = { $regex: breed, $options: 'i' }
+
+    let petsQuery = db.collection('pets').find(filter)
+
+    // Aplicar ordenación si se proporciona
+    if (sort) {
+      console.log(sort) // Añadir esta línea para verificar el valor de sort
+      const sortOrder = sort === 'asc' ? 1 : -1
+      petsQuery = petsQuery.sort({ age: sortOrder })
+    }
+    const pets = await petsQuery.toArray()
     res.json(pets)
   } catch (error) {
     console.error(error)
@@ -39,12 +56,12 @@ export const createPet = async (req, res) => {
       name,
       picture,
       breed,
-      weight,
+      weight : parseInt(weight),
       size,
       diet,
       color,
       personality,
-      age,
+      age : parseInt(age),
       health_state,
       allergies,
       special_condition,
@@ -79,12 +96,19 @@ export const deletePet = async (req, res) => {
 export const updatePet = async (req, res) => {
   const { _id } = req.params
   const { name, picture, breed, weight, size, diet, color, personality, age, health_state, alergies, special_condition, notes, vaccines, owner } = req.body
+
+  // Convertir los atributos a enteros
+  const ageInt = parseInt(age)
+  const weightInt = parseInt(weight)
+  const sizeInt = parseInt(size)
+
   try {
     const db = getDB()
     const result = await db.collection('pets').updateOne(
       { _id: new ObjectId(_id) },
-      { $set: { name, picture, breed, weight, size, diet, color, personality, age, health_state, alergies, special_condition, notes, vaccines, owner } }
+      { $set: { name, picture, breed, weight: weightInt, size, diet, color, personality, age: ageInt, health_state, alergies, special_condition, notes, vaccines, owner } }
     )
+
     if (result.modifiedCount) {
       res.json({ message: 'Mascota actualizada' })
     } else {

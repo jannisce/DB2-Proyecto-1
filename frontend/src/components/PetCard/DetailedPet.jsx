@@ -54,12 +54,11 @@ const DetailedPet = ({ pet }) => {
   const handleInputChange = (e) => {
     setEditedPet({
       ...editedPet,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.type === 'number' ? parseInt(e.target.value) : e.target.value,
     })
   }
 
   const fields = [
-    // '_id',
     'name',
     'picture',
     'breed',
@@ -77,97 +76,66 @@ const DetailedPet = ({ pet }) => {
     'owner',
   ]
 
-  const handleVaccineInputChange = (e, index, attributeName) => {
-    const { value } = e.target
-    const updatedVaccines = [...editedPet.vaccines]
-    updatedVaccines[index] = {
-      ...updatedVaccines[index],
-      [attributeName]: value,
-    }
-    setEditedPet({
-      ...editedPet,
-      vaccines: updatedVaccines,
-    })
-  }
-
   const renderInput = (fieldName) => (
     <div className='flex flex-row flex-wrap h-12 mx-2' key={fieldName}>
       <label htmlFor={fieldName} className='font-bold w-44'>
         {fieldName}
       </label>
-
-
-      {fieldName == 'vaccines' ? (
-        <input
-          type='text'
-          id={fieldName}
-          name={fieldName}
-          onChange={(e) => handleInputChange(e)}
-          //chapuzon
-          value={
-            Array.isArray(pet.vaccines)
-              ? editedPet.vaccines.map((vaccine) => vaccine.name).join(', ')
-              : editedPet[fieldName]
-          }
-          readOnly={!isEditing}
-          className={`mx-8 ${isEditing ? 'bg-blue-100' : ''}`}
-        />
-      ) : (
-        <input
-          type='text'
-          id={fieldName}
-          name={fieldName}
-          onChange={(e) => handleInputChange(e)}
-          value={editedPet[fieldName]}
-          readOnly={!isEditing}
-          className={`mx-8 ${isEditing ? 'bg-blue-100' : ''}`}
-        />
-      )}
+      <input
+        type={fieldName === 'age' || fieldName === 'weight' ? 'number' : 'text'}
+        id={fieldName}
+        name={fieldName}
+        onChange={handleInputChange}
+        value={editedPet[fieldName]}
+        readOnly={!isEditing}
+        className={`mx-8 ${isEditing ? 'bg-blue-100' : ''}`}
+      />
     </div>
   )
 
   const renderedFields = fields.map(renderInput)
 
   return (
-    <div className='flex flex-col md:flex-row items-center justify-center'>
-      <div className='flex flex-col md:ml-20 items-center'>
-        <span className='text-5xl px-16 pt-4 mt-8'> {editedPet.name} </span>
-        <img
-          className='h-96 w-96 object-scale-down'
-          src={editedPet.picture}
-          alt={editedPet.name}
-        />
-      </div>
-
-      <div className='flex flex-row text-lg p-8 items-center justify-center flex-wrap flex-1'>
-        {renderedFields}
-
-        <div className='m-4'>
-          <button
-            className='bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md mr-2'
-            onClick={isEditing ? handleConfirmClick : handleEditClick}
-          >
-            {isEditing ? 'Confirmar' : 'Editar'}
-          </button>
-
-          {isEditing && (
-            <button
-              className='bg-gray-500 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-md'
-              onClick={handleCancelClick}
-            >
-              Cancelar
-            </button>
-          )}
-
-          {!isEditing && (
-            <button
-              className='bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md ml-2'
-              onClick={handleDeleteClick}
-            >
-              Eliminar
-            </button>
-          )}
+    <div>
+      <div className='flex flex-col md:flex-row items-center justify-center'>
+        <div className='flex flex-col md:ml-20 items-center'>
+          <span className='text-5xl px-16 pt-4 mt-8'> {editedPet.name} </span>
+          <img
+            className='h-96 w-96 object-scale-down'
+            src={editedPet.picture}
+            alt={editedPet.name}
+          />
         </div>
+
+        <div className='flex flex-row text-lg  items-center justify-center flex-wrap flex-1'>
+          {renderedFields}
+        </div>
+      </div>
+      <div className='flex justify-end mt-4 mr-8'>
+        <button
+          className='bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md mr-2'
+          onClick={isEditing ? handleConfirmClick : handleEditClick}
+        >
+          {isEditing ? 'Confirmar' : 'Editar'}
+        </button>
+
+        {isEditing && (
+          <button
+            className='bg-gray-500 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-md'
+            onClick={handleCancelClick}
+          >
+            Cancelar
+          </button>
+        )}
+
+        {!isEditing && (
+          <button
+            className='bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md ml-2'
+            onClick={handleDeleteClick}
+          >
+            Eliminar
+          </button>
+        )}
       </div>
     </div>
   )

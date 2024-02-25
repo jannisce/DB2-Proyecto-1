@@ -49,14 +49,14 @@ const PetDetailsPage = () => {
         {loading ? (
           <Loader text='Loading ... ' />
         ) : pet ? (
-          <DetailedPet
-            pet={pet}
-          />
+          <>
+            <DetailedPet pet={pet} />
+            <AdoptPet pet={pet} />
+          </>
         ) : (
           <Loader text='Error fetching data ... ' />
         )}
 
-        <AdoptPet pet={pet}/>
         
       </div>
     </Layout>
