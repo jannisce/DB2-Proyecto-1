@@ -184,7 +184,8 @@ export const createPet = async (req, res) => {
       health_state,
       allergies : new_allergies,
       special_condition : new_special_condition,
-      notes : new_notes
+      notes : new_notes,
+      vaccines: "",
     })
     res.status(201).json(result)
   } catch (error) {

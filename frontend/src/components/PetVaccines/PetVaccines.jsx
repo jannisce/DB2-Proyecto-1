@@ -72,67 +72,68 @@ const PetVaccines = ({ pet }) => {
       </button>
 
       {modalOpen && (
-        <div className='modal fixed w-full h-full top-0 left-0 flex items-center justify-center z-50'>
-          <div
-            className='modal-overlay absolute w-full h-full bg-gray-900 opacity-50'
-            onClick={() => setShowModal(false)}
-          ></div>
+        <>
+          <div className='modal fixed w-full h-full top-0 left-0 flex items-center justify-center z-50'>
+            <div
+              className='modal-overlay absolute w-full h-full bg-gray-900 opacity-50'
+              onClick={() => setShowModal(false)}
+            ></div>
 
-          <div className='modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto'>
-            <div className='modal-content py-4 text-left px-6'>
-              <div className='modal-header'>
-                <h3 className='text-2xl font-bold'>Edit Vaccines</h3>
-              </div>
+            <div className='modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto'>
+              <div className='modal-content py-4 text-left px-6'>
+                <div className='modal-header'>
+                  <h3 className='text-2xl font-bold'>Edit Vaccines</h3>
+                </div>
 
-              <div className='modal-body'>
-                <ul>
-                  {vaccines.map((vaccine, index) => (
-                    <div key={index} className='flex'>
-                      <div>
-                        <label>Vaccine Name:</label>
-                        <input
-                          type='text'
-                          value={vaccine.name}
-                          onChange={(e) =>
-                            handleVaccineChange(index, 'name', e.target.value)
-                          }
-                          className='border rounded-md px-2 py-1 mt-2'
-                        />
-                        <br></br>
-                        <label>Date:</label>
-                        <input
-                          type='text'
-                          value={vaccine.date}
-                          onChange={(e) =>
-                            handleVaccineChange(index, 'date', e.target.value)
-                          }
-                          className='border rounded-md px-2 py-1 mt-2'
-                        />
-                        <br></br>
-                        <label>Next Dose:</label>
-                        <input
-                          type='text'
-                          value={vaccine.next_dosis}
-                          onChange={(e) =>
-                            handleVaccineChange(
-                              index,
-                              'next_dosis',
-                              e.target.value
-                            )
-                          }
-                          className='border rounded-md px-2 py-1 mt-2'
-                        />
-                        <button
-                          onClick={() => handleDeleteVaccine(index)}
-                          className='bg-red-500 text-white font-semibold py-1 px-2 rounded-md ml-2'
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </ul>
-
+                <div className='modal-body'>
+                  <ul>
+                    {Array.isArray(vaccines) && vaccines.length > 0 ? (
+                      vaccines.map((vaccine, index) => (
+                        <div key={index} className='flex'>
+                          <div>
+                            <label>Vaccine Name:</label>
+                            <input
+                              type='text'
+                              value={vaccine.name}
+                              onChange={(e) =>
+                                handleVaccineChange(index, 'name', e.target.value)
+                              }
+                              className='border rounded-md px-2 py-1 mt-2'
+                            />
+                            <br></br>
+                            <label>Date:</label>
+                            <input
+                              type='text'
+                              value={vaccine.date}
+                              onChange={(e) =>
+                                handleVaccineChange(index, 'date', e.target.value)
+                              }
+                              className='border rounded-md px-2 py-1 mt-2'
+                            />
+                            <br></br>
+                            <label>Next Dose:</label>
+                            <input
+                              type='text'
+                              value={vaccine.next_dosis}
+                              onChange={(e) =>
+                                handleVaccineChange(index, 'next_dosis', e.target.value)
+                              }
+                              className='border rounded-md px-2 py-1 mt-2'
+                            />
+                            <button
+                              onClick={() => handleDeleteVaccine(index)}
+                              className='bg-red-500 text-white font-semibold py-1 px-2 rounded-md ml-2'
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p>No vaccines found.</p>
+                    )}
+                  </ul>
+                </div>
                 <div>
                   <button
                     onClick={handleCreateVaccine}
@@ -158,7 +159,7 @@ const PetVaccines = ({ pet }) => {
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
