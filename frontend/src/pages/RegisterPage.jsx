@@ -55,6 +55,7 @@ const RegisterPage = () => {
           special_condition: '',
           notes: '',
           vaccines: '',
+          owner: null,
         })
       } catch (error) {
         console.error('Error registering pet:', error)

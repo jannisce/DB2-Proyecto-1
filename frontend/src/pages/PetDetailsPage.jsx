@@ -3,11 +3,12 @@ import axios from 'axios'
 
 import { useParams } from 'react-router-dom'
 
-import Layout from '../components/Layout/Layout'
-
 import { API_URL } from '../data/constants'
+
+import Layout from '../components/Layout/Layout'
 import Loader from '../components/Loader/Loader'
 import DetailedPet from '../components/PetCard/DetailedPet'
+import AdoptPet from '../components/AdoptPet/AdoptPet'
 
 const PetDetailsPage = () => {
   const { _id } = useParams()
@@ -55,6 +56,7 @@ const PetDetailsPage = () => {
           <Loader text='Error fetching data ... ' />
         )}
 
+        <AdoptPet pet={pet}/>
         
       </div>
     </Layout>

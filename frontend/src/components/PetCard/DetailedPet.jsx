@@ -74,6 +74,7 @@ const DetailedPet = ({ pet }) => {
     'special_condition',
     'notes',
     'vaccines',
+    'owner',
   ]
 
   const handleVaccineInputChange = (e, index, attributeName) => {
