@@ -8,35 +8,54 @@ export const getAllPets = async (req, res) => {
   try {
     const db = getDB()
     const { age, weight, breed, sort, page, limit } = req.query
-    const filter = {}
+    const filter = []
+    const projection = {
+      $project: {
+        name: 1,
+        picture: 1,
+        age: 1,
+        breed: 1,
+        weight: 1
+      }
+    }
     console.log(req.query)
-    if (age) filter.age = parseInt(age)
-    if (weight) filter.weight = parseInt(weight)
-    if (breed) filter.breed = { $regex: breed, $options: 'i' }
+    if (age) filter.push({ $match: { age: parseInt(age) } })
+    if (weight) filter.push({ $match: { weight: parseInt(weight) } })
+    if (breed) filter.push({ $match: { breed: { $regex: breed, $options: 'i' } } })
 
-    let petsQuery = db.collection('pets').find(filter)
+    let aggregationPipeline = []
 
-    if (sort) {
-      console.log(sort) 
-      const sortOrder = sort === 'asc' ? 1 : -1
-      petsQuery = petsQuery.sort({ age: sortOrder })
+    // Agregar los filtros al pipeline de agregación
+    if (filter.length > 0) {
+      aggregationPipeline = [...aggregationPipeline, ...filter]
     }
 
-    // Agregar paginación
+    // Agregar proyección al pipeline de agregación
+    aggregationPipeline.push(projection)
+
+    // Aplicar sort si se proporciona
+    if (sort) {
+      const sortOrder = sort === 'asc' ? 1 : -1
+      aggregationPipeline.push({ $sort: { age: sortOrder } })
+    }
+
+    // Agregar paginación al pipeline de agregación
     if (page && limit) {
       const pageNumber = parseInt(page)
       const limitNumber = parseInt(limit)
       const skip = (pageNumber - 1) * limitNumber
-      petsQuery = petsQuery.skip(skip).limit(limitNumber)
+      aggregationPipeline.push({ $skip: skip })
+      aggregationPipeline.push({ $limit: limitNumber })
     }
 
-    const pets = await petsQuery.toArray()
+    const pets = await db.collection('pets').aggregate(aggregationPipeline).toArray()
     res.json(pets)
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: 'Error al obtener las mascotas' })
   }
 }
+
 
 // Función controladora para obtener una mascota por su id
 export const getPetById = async (req, res) => {
@@ -195,24 +214,24 @@ export const updatePet = async (req, res) => {
 
 // Función controladora para actualizar las vacunas de una mascota por su id
 export const updatePetVaccines = async (req, res) => {
-  const { _id } = req.params;
-  const { vaccines } = req.body;
+  const { _id } = req.params
+  const { vaccines } = req.body
 
   try {
-    const db = getDB();
+    const db = getDB()
     const result = await db.collection('pets').updateOne(
       { _id: new ObjectId(_id) },
       { $set: { vaccines } }
-    );
+    )
 
     if (result.modifiedCount) {
-      res.json({ message: 'Vacunas de mascota actualizadas' });
+      res.json({ message: 'Vacunas de mascota actualizadas' })
     } else {
-      res.status(404).json({ message: 'Mascota no encontrada' });
+      res.status(404).json({ message: 'Mascota no encontrada' })
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error al actualizar las vacunas de la mascota' });
+    console.error(error)
+    res.status(500).json({ message: 'Error al actualizar las vacunas de la mascota' })
   }
-};
+}
 
