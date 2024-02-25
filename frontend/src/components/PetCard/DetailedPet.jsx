@@ -72,7 +72,6 @@ const DetailedPet = ({ pet }) => {
     'allergies',
     'special_condition',
     'notes',
-    'vaccines',
   ]
   
 

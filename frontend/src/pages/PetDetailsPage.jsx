@@ -9,6 +9,7 @@ import Layout from '../components/Layout/Layout'
 import Loader from '../components/Loader/Loader'
 import DetailedPet from '../components/PetCard/DetailedPet'
 import AdoptPet from '../components/AdoptPet/AdoptPet'
+import PetVaccines from '../components/PetVaccines/PetVaccines'
 
 const PetDetailsPage = () => {
   const { _id } = useParams()
@@ -51,7 +52,10 @@ const PetDetailsPage = () => {
         ) : pet ? (
           <>
             <DetailedPet pet={pet} />
-            <AdoptPet pet={pet} />
+            <div className="flex justify-between w-1/3">
+              <AdoptPet pet={pet} />
+              <PetVaccines pet={pet} />
+            </div>
           </>
         ) : (
           <Loader text='Error fetching data ... ' />

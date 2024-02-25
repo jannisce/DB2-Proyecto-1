@@ -75,12 +75,22 @@ export const getPetById = async (req, res) => {
           allergies: 1,
           special_condition: 1,
           notes: 1,
-          vaccines: 1,
           owner_id: '$ownerInfo._id',
           owner_name: '$ownerInfo.name',
           owner_address: '$ownerInfo.address',
           owner_phone: '$ownerInfo.phone',
-          owner_email: '$ownerInfo.email'
+          owner_email: '$ownerInfo.email',
+          vaccines: {
+            $map: {
+              input: '$vaccines',
+              as: 'vaccine',
+              in: {
+                name: '$$vaccine.name',
+                date: '$$vaccine.date',
+                next_dosis: '$$vaccine.next_dosis'
+              }
+            }
+          }
         }
       }
     ]).toArray()
@@ -90,7 +100,12 @@ export const getPetById = async (req, res) => {
     if (pet.length > 0) {
       res.json(pet[0])
     } else {
-      res.status(404).json({ message: 'Mascota no encontrada' })
+
+      // this means the pet didn't have an owner so we need to get the pet without the owner info
+      const pet = await db.collection('pets').findOne({ _id: new ObjectId(_id) })
+      res.json(pet)
+      console.log(pet)
+
     }
   } catch (error) {
     console.error(error)
@@ -177,3 +192,27 @@ export const updatePet = async (req, res) => {
     res.status(500).json({ message: 'Error al actualizar la mascota' })
   }
 }
+
+// Función controladora para actualizar las vacunas de una mascota por su id
+export const updatePetVaccines = async (req, res) => {
+  const { _id } = req.params;
+  const { vaccines } = req.body;
+
+  try {
+    const db = getDB();
+    const result = await db.collection('pets').updateOne(
+      { _id: new ObjectId(_id) },
+      { $set: { vaccines } }
+    );
+
+    if (result.modifiedCount) {
+      res.json({ message: 'Vacunas de mascota actualizadas' });
+    } else {
+      res.status(404).json({ message: 'Mascota no encontrada' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al actualizar las vacunas de la mascota' });
+  }
+};
+
