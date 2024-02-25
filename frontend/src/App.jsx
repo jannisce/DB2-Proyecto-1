@@ -9,7 +9,7 @@ import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
 import AdoptPage from './pages/AdoptPage'
 import DashboardPage from './pages/DashboardPage'
-// import PetDetailsPage from './pages/PetDetailsPage'
+import PetDetailsPage from './pages/PetDetailsPage'
 
 const App = () => {
   return (
@@ -19,7 +19,7 @@ const App = () => {
         <Route path='/about' element={<AboutPage />} />
         <Route path='/adopt' element={<AdoptPage />} />
         <Route path='/dashboard' element={<DashboardPage />} />
-        {/* <Route path='/adopt/:_id' element={<PetDetailsPage />} /> */}
+        <Route path='/adopt/:_id' element={<PetDetailsPage />} />
 
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
