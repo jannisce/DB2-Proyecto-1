@@ -95,7 +95,7 @@ export const deletePet = async (req, res) => {
 // Función controladora para actualizar una mascota por su id
 export const updatePet = async (req, res) => {
   const { _id } = req.params
-  const { name, picture, breed, weight, size, diet, color, personality, age, health_state, alergies, special_condition, notes, vaccines, owner } = req.body
+  const { name, picture, breed, weight, size, diet, color, personality, age, health_state, allergies, special_condition, notes, vaccines, owner } = req.body
 
   // Convertir los atributos a enteros
   const ageInt = parseInt(age)
@@ -106,7 +106,7 @@ export const updatePet = async (req, res) => {
     const db = getDB()
     const result = await db.collection('pets').updateOne(
       { _id: new ObjectId(_id) },
-      { $set: { name, picture, breed, weight: weightInt, size, diet, color, personality, age: ageInt, health_state, alergies, special_condition, notes, vaccines, owner } }
+      { $set: { name, picture, breed, weight: weightInt, size, diet, color, personality, age: ageInt, health_state, allergies, special_condition, notes, vaccines, owner } }
     )
 
     if (result.modifiedCount) {
