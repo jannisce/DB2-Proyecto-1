@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb';
 import { getDB } from '../db/db.js'
 
 // Función controladora para obtener todos los propietarios
@@ -24,7 +23,10 @@ export const createOwner = async (req, res) => {
       phone,
       email
     })
-    res.status(201).json(result)
+
+    const ownerId = result.insertedId
+
+    res.status(201).json({ _id: ownerId, message: 'Propietario creado exitosamente' })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: 'Error al crear el propietario' })
