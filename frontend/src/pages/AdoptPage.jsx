@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-
 import Layout from '../components/Layout/Layout'
 import PetCard from '../components/PetCard/PetCard'
 import { API_URL } from '../data/constants'
@@ -11,6 +10,8 @@ const AdoptPage = () => {
   const [loading, setLoading] = useState(false)
   const [filters, setFilters] = useState({ age: '', weight: '', breed: '' })
   const [sortByAgeAsc, setSortByAgeAsc] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [perPage, setPerPage] = useState(6) 
 
   // Define fetchData method
   const fetchData = async () => {
@@ -25,7 +26,11 @@ const AdoptPage = () => {
       if (sortByAgeAsc !== null) {
         queryParams.push(`sort=${sortByAgeAsc ? 'asc' : 'desc'}`)
       }
-  
+
+      // Agregar parámetros de paginación a la URL
+      queryParams.push(`page=${currentPage}`)
+      queryParams.push(`limit=${perPage}`)
+
       if (queryParams.length > 0) {
         url += `?${queryParams.join('&')}`
       }
@@ -40,11 +45,10 @@ const AdoptPage = () => {
       console.error(error)
     }
   }
-  
 
   useEffect(() => {
     fetchData()
-  }, [filters, sortByAgeAsc])
+  }, [filters, sortByAgeAsc, currentPage, perPage])
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target
@@ -56,6 +60,14 @@ const AdoptPage = () => {
 
   const toggleSortByAge = () => {
     setSortByAgeAsc((prevValue) => !prevValue)
+  }
+
+  const goToPreviousPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1)
+  }
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1)
   }
 
   return (
@@ -105,6 +117,23 @@ const AdoptPage = () => {
           ) : (
             <p className="text-center">No pets found</p>
           )}
+        </div>
+
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={goToPreviousPage}
+            disabled={currentPage === 1} 
+            className="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+          >
+            Previous
+          </button>
+          <button
+            onClick={goToNextPage}
+            disabled={pets.length < perPage}
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+          >
+            Next
+          </button>
         </div>
       </div>
     </Layout>

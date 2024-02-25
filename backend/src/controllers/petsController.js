@@ -2,12 +2,12 @@ import { ObjectId } from 'mongodb'
 import { getDB } from '../db/db.js'
 
 
-// Función controladora para obtener todas las mascotas con posibilidad de ordenar por edad
+// Función controladora para obtener todas las mascotas con posibilidad de ordenar por edad y paginación
 export const getAllPets = async (req, res) => {
   console.log('getAllPets')
   try {
     const db = getDB()
-    const { age, weight, breed, sort } = req.query
+    const { age, weight, breed, sort, page, limit } = req.query
     const filter = {}
     console.log(req.query)
     if (age) filter.age = parseInt(age)
@@ -16,12 +16,20 @@ export const getAllPets = async (req, res) => {
 
     let petsQuery = db.collection('pets').find(filter)
 
-    // Aplicar ordenación si se proporciona
     if (sort) {
-      console.log(sort) // Añadir esta línea para verificar el valor de sort
+      console.log(sort) 
       const sortOrder = sort === 'asc' ? 1 : -1
       petsQuery = petsQuery.sort({ age: sortOrder })
     }
+
+    // Agregar paginación
+    if (page && limit) {
+      const pageNumber = parseInt(page)
+      const limitNumber = parseInt(limit)
+      const skip = (pageNumber - 1) * limitNumber
+      petsQuery = petsQuery.skip(skip).limit(limitNumber)
+    }
+
     const pets = await petsQuery.toArray()
     res.json(pets)
   } catch (error) {
