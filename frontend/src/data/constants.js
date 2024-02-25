@@ -2,6 +2,7 @@ export const NAV_BAR = [
   { name: "Home", path: "/" },
   { name: "Dashboard", path: "/dashboard" },
   { name: "Adopt", path: "/adopt" },
+  { name: "Register", path: "/register" },
   { name: "About us", path: "/about" },
 ]
 
