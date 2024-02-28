@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 import Layout from '../components/Layout/Layout'
 
 import { API_URL } from '../data/constants'
 
+
 const RegisterPage = () => {
+
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     name: '',
     picture: '',
@@ -57,6 +62,10 @@ const RegisterPage = () => {
           vaccines: '',
           owner: null,
         })
+
+        // save the response _id and navigate to the pet details page
+        navigate(`/adopt/${response.data.insertedId}`)
+
       } catch (error) {
         console.error('Error registering pet:', error)
         alert('Error registering pet:', error.message)

@@ -8,7 +8,7 @@ import Loader from '../components/Loader/Loader'
 const AdoptPage = () => {
   const [pets, setPets] = useState([])
   const [loading, setLoading] = useState(false)
-  const [filters, setFilters] = useState({ age: '', weight: '', breed: '' })
+  const [filters, setFilters] = useState({ age: '', weight: '', breed: '' , owner_id: ''})
   const [sortByAgeAsc, setSortByAgeAsc] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [perPage, setPerPage] = useState(6) 
@@ -23,6 +23,7 @@ const AdoptPage = () => {
       if (filters.age) queryParams.push(`age=${filters.age}`)
       if (filters.weight) queryParams.push(`weight=${filters.weight}`)
       if (filters.breed) queryParams.push(`breed=${filters.breed}`)
+      if (filters.owner_id) queryParams.push(`owner_id=${filters.owner_id}`)
       if (sortByAgeAsc !== null) {
         queryParams.push(`sort=${sortByAgeAsc ? 'asc' : 'desc'}`)
       }
@@ -101,6 +102,18 @@ const AdoptPage = () => {
             placeholder="Breed"
             className="border rounded-lg px-4 py-2"
           />
+          <button
+            onClick={() => {
+              setFilters((prevFilters) => ({
+                ...prevFilters,
+                owner_id: prevFilters.owner_id === 'null' ? '' : 'null',
+              }));
+            }}
+            className="ml-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+          >
+            {filters.owner_id === 'null' ? 'Show Pets with Owner' : 'Show Pets without Owner'}
+          </button>
+
           <button
             onClick={toggleSortByAge}
             className="ml-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"

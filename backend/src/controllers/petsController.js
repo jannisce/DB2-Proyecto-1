@@ -2,12 +2,11 @@ import { ObjectId } from 'mongodb'
 import { getDB } from '../db/db.js'
 
 
-// Función controladora para obtener todas las mascotas con posibilidad de ordenar por edad y paginación
 export const getAllPets = async (req, res) => {
   console.log('getAllPets')
   try {
     const db = getDB()
-    const { age, weight, breed, sort, page, limit } = req.query
+    const { age, weight, breed, sort, page, limit, owner_id } = req.query
     const filter = []
     const projection = {
       $project: {
@@ -15,13 +14,18 @@ export const getAllPets = async (req, res) => {
         picture: 1,
         age: 1,
         breed: 1,
-        weight: 1
-      }
+        weight: 1,
+      },
     }
     console.log(req.query)
     if (age) filter.push({ $match: { age: parseInt(age) } })
     if (weight) filter.push({ $match: { weight: parseInt(weight) } })
     if (breed) filter.push({ $match: { breed: { $regex: breed, $options: 'i' } } })
+    if (owner_id === 'null') {
+      filter.push({ $match: { owner_id: null } })
+    } else if (owner_id === 'notnull') {
+      filter.push({ $match: { owner_id: { $ne: null } } })
+    }
 
     let aggregationPipeline = []
 
@@ -55,6 +59,7 @@ export const getAllPets = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener las mascotas' })
   }
 }
+
 
 
 // Función controladora para obtener una mascota por su id
