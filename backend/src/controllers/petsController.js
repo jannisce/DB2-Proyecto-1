@@ -66,13 +66,14 @@ export const getAllPets = async (req, res) => {
 // Función controladora para obtener una mascota por su id
 export const getPetById = async (req, res) => {
   const { _id } = req.params
+  const db = getDB()
+
   try {
     if (!ObjectId.isValid(_id)) {
       res.status(404).json({ message: 'ID de mascota no válido' })
       return
     }
 
-    const db = getDB()
     const pet = await db.collection('pets').aggregate([
       { $match: { _id: new ObjectId(_id) } },
       {
@@ -191,7 +192,7 @@ export const createPet = async (req, res) => {
       allergies : new_allergies,
       special_condition : new_special_condition,
       notes : new_notes,
-      vaccines: "",
+      vaccines: [],
     })
     res.status(201).json(result)
   } catch (error) {
