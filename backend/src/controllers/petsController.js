@@ -15,18 +15,21 @@ export const getAllPets = async (req, res) => {
         age: 1,
         breed: 1,
         weight: 1,
+        owner_id: 1,
       },
     }
     console.log(req.query)
     if (age) filter.push({ $match: { age: parseInt(age) } })
     if (weight) filter.push({ $match: { weight: parseInt(weight) } })
     if (breed) filter.push({ $match: { breed: { $regex: breed, $options: 'i' } } })
-    if (owner_id === 'null') {
-      filter.push({ $match: { owner_id: null } })
-    } else if (owner_id === 'notnull') {
-      filter.push({ $match: { owner_id: { $ne: null } } })
-    }
 
+    // if owner_id request was passed as 'null' then we need to filter pets without owner
+    if (owner_id === 'null') {
+      filter.push({ $match: { owner_id: null } });
+    } else if (owner_id === 'notnull') {
+      filter.push({ $match: { owner_id: { $ne: null } } });
+    }
+    
     let aggregationPipeline = []
 
     // Agregar los filtros al pipeline de agregación
@@ -59,8 +62,6 @@ export const getAllPets = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener las mascotas' })
   }
 }
-
-
 
 // Función controladora para obtener una mascota por su id
 export const getPetById = async (req, res) => {

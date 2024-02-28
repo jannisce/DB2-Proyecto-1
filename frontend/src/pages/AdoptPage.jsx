@@ -8,7 +8,7 @@ import Loader from '../components/Loader/Loader'
 const AdoptPage = () => {
   const [pets, setPets] = useState([])
   const [loading, setLoading] = useState(false)
-  const [filters, setFilters] = useState({ age: '', weight: '', breed: '' , owner_id: ''})
+  const [filters, setFilters] = useState({ age: '', weight: '', breed: '' , owner_id: 'notnull' })
   const [sortByAgeAsc, setSortByAgeAsc] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [perPage, setPerPage] = useState(6) 
@@ -106,13 +106,14 @@ const AdoptPage = () => {
             onClick={() => {
               setFilters((prevFilters) => ({
                 ...prevFilters,
-                owner_id: prevFilters.owner_id === 'null' ? '' : 'null',
+                owner_id: prevFilters.owner_id === 'null' ? 'notnull' : 'null',
               }));
             }}
             className="ml-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
           >
             {filters.owner_id === 'null' ? 'Show Pets with Owner' : 'Show Pets without Owner'}
           </button>
+
 
           <button
             onClick={toggleSortByAge}
