@@ -49,7 +49,7 @@ const AdoptPet = ({ pet }) => {
         // Actualizar el atributo 'owner' de la mascota 'pet'
         const updatedPet = {
           ...pet,
-          owner: responseOwner.data._id,
+          owner_id: responseOwner.data._id,
         }
 
         // Enviar la actualización al servidor para la adopción de la mascota

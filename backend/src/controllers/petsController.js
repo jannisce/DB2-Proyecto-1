@@ -72,7 +72,7 @@ export const getPetById = async (req, res) => {
       {
         $lookup: {
           from: 'owners',
-          localField: 'owner',
+          localField: 'owner_id',
           foreignField: '_id',
           as: 'ownerInfo'
         }
@@ -214,7 +214,7 @@ export const deletePet = async (req, res) => {
 // Función controladora para actualizar una mascota por su id
 export const updatePet = async (req, res) => {
   const { _id } = req.params
-  const { name, picture, breed, weight, size, diet, color, personality, age, health_state, allergies, special_condition, notes, vaccines, owner } = req.body
+  const { name, picture, breed, weight, size, diet, color, personality, age, health_state, allergies, special_condition, notes, vaccines, owner_id } = req.body
 
   // Convertir los atributos a enteros
   const ageInt = parseInt(age)
@@ -223,8 +223,8 @@ export const updatePet = async (req, res) => {
 
   // if owner is different from undefined, convert it to ObjectId
   let ownerId
-  if (owner !== undefined) {
-    ownerId = new ObjectId(owner)
+  if (owner_id !== undefined) {
+    ownerId = new ObjectId(owner_id)
   }
 
   let new_allergies = []
@@ -263,7 +263,7 @@ export const updatePet = async (req, res) => {
         special_condition : new_special_condition,
         notes : new_notes,
         vaccines, 
-        owner: ownerId 
+        owner_id: ownerId 
       } }
     )
 
